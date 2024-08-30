@@ -1,29 +1,39 @@
-import express from "express"
-import cors from"cors"
-import { connectDB } from "./config/db.js"
-import foodRouter from "./models/FoodRouter.js"
+import express from "express";
+import cors from "cors";
+import { connectDB } from "./config/db.js";
+import foodRouter from "./routes/FoodRouter.js";
+import userRouter from "./routes/UserRouter.js";
+import dotenv from "dotenv";
+dotenv.config(); 
 
-//app config
-const app = express()
-const port = 4000
+import { isAdmin, authMiddleware } from "./middleware/Auth/Auth.js";
 
-//middleware
-app.use(express.json())
-app.use(cors())
-//db connect
+// App config
+const app = express();
+const port = 4000;
+
+// Middleware
+app.use(express.json());
+app.use(cors());
+
+// DB connect
 connectDB();
 
-// api end points
+// API end points
+app.use("/api/food", foodRouter);
+app.use("/images", express.static('uploads'));
+app.use("/api/user", userRouter);
 
-app.use("/api/food",foodRouter)
-app.use("/images",express.static('uploads'))
+// Protected route with admin authorization
+// app.get("/admin-dashboard", authMiddleware, isAdmin, (req, res) => {
+//   res.json({ success: true, message: "Welcome to the admin dashboard!" });
+// });
 
+// Basic route
+app.get("/", (req, res) => {
+  res.send("API working");
+});
 
-app.get("/", (req,res) =>{
-    res.send("API working")
-}) 
-app.listen(port, ()=>{
-    console.log(`Server started on htpp://localhost:${port}`)
-})
-
-//mongodb+srv://nhockuteg2003:0398028203Aa@cluster0.6xkry.mongodb.net/?
+app.listen(port, () => {
+  console.log(`Server started on http://localhost:${port}`);
+});
