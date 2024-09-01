@@ -1,4 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 *{
   padding: 0;
   margin: 0;
@@ -16,11 +19,34 @@ a{
   width: 80%;
   margin: auto;
 }
-.app-content{
+/* .app-content{
   display: flex;
-}
+} */
 .flex-col{
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+.cursor{
+  cursor: pointer;
+}
+@keyframes fadeIn {
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1 ;
+  }
+}
+
+.btn-tmt{
+  background-color: tomato; 
+  color: #fff; 
+  padding: 0.5rem 1rem; 
+  border-radius: 1.5rem; 
+  transition: background-color 0.3s ease; 
+}
+
+.btn-dark:hover {
+  background-color: #333; 
 }

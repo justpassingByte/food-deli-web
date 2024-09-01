@@ -5,10 +5,9 @@ import './Add.css';
 import axios from "axios";
 import { toast } from 'react-toastify';
 
-const Add = () => {
+const Add = ({url }) => {
   console.log('Add component is rendering');
   
-  const url = "http://localhost:4000";
   const [image, setImage] = useState(null);
   const [data, setData] = useState({
     name: "",
