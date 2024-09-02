@@ -30,7 +30,7 @@ const loginUser = async (req, res) => {
     );
 
     // Send success response with the token
-    return res.json({ success: true, token, message: "Login successful!" });
+    return res.json({ success: true, token, role: user.role, message: "Login successful!" });
   } catch (error) {
     console.error("Error during login:", error);
     return res.status(500).json({ success: false, message: "Server error", error: error.message || error });
@@ -40,7 +40,7 @@ const loginUser = async (req, res) => {
 
 //register user
 const registerUser = async (req, res) => {
-    const { name, email, password, role } = req.body;
+    const { name, email, password } = req.body;
     try {
       const exists = await userModel.findOne({ email });
       if (exists) {
@@ -63,7 +63,7 @@ const registerUser = async (req, res) => {
   
       // Hash the password and save the user with the role
       const hashedPassword = await bcrypt.hash(password, 10);
-      const newUser = new userModel({ name, email, password: hashedPassword, role: role || "user" });
+      const newUser = new userModel({ name, email, password: hashedPassword, role: "user" });
       await newUser.save();
   
       // Create a JWT token

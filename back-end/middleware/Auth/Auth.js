@@ -11,7 +11,13 @@ const isAdmin = (req, res, next) => {
   };
   
   const authMiddleware = (req, res, next) => {
-    const token = req.headers.authorization?.split(" ")[1];
+    const authHeader = req.headers.authorization;
+  
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({ success: false, message: "Authentication required" });
+    }
+  
+    const token = authHeader.split(' ')[1]; // Lấy token từ chuỗi 'Bearer <token>'
   
     if (!token) {
       return res.status(401).json({ success: false, message: "Authentication required" });
@@ -19,10 +25,13 @@ const isAdmin = (req, res, next) => {
   
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      req.user = decoded;
+      req.body.userId = decoded.userId;
+  
       next();
     } catch (error) {
+      console.log(error); // Log lỗi để debug
       return res.status(403).json({ success: false, message: "Invalid token" });
     }
   };
+  
   export {isAdmin,authMiddleware}
