@@ -1,11 +1,10 @@
-// src/redux/authReducer.js
-
 const token = localStorage.getItem('authToken'); 
-
+const role = localStorage.getItem('userRole'); 
 const initialState = {
   token: token || null,
   isAuthenticated: !!token, 
-  userRole: null,
+  userRole: role || null,
+  cartData: {}, // Initialize as an empty object or array, depending on your requirements
 };
 
 const authReducer = (state = initialState, action) => {
@@ -17,12 +16,18 @@ const authReducer = (state = initialState, action) => {
         isAuthenticated: true,
         userRole: action.payload.role,
       };
+    case 'SET_CART_DATA':
+      return {
+        ...state,
+        cartData: action.payload.cartData,
+      };
     case 'LOGOUT':
       return {
         ...state,
         token: null,
         isAuthenticated: false,
         userRole: null,
+        cartData: {}, 
       };
     default:
       return state;

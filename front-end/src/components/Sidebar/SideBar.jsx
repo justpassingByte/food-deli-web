@@ -8,14 +8,14 @@ const SideBar = () => {
     <div className='sidebar'>
       <div className="sidebar-options">
         <NavLink 
-          to='/add' 
+          to='/admin-dashboard/add' 
           className="sidebar-option"
         >
             <img src={assets.add_icon} alt="Add Icon" />
             <p>Add Items</p>
         </NavLink>
         <NavLink 
-          to='/list' 
+          to='/admin-dashboard/list' 
           className="sidebar-option"
       
         >
@@ -23,7 +23,7 @@ const SideBar = () => {
             <p>List Items</p>
         </NavLink>
         <NavLink 
-          to='/order' 
+          to='/admin-dashboard/order' 
           className="sidebar-option"
         
         >

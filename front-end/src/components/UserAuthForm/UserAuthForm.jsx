@@ -1,7 +1,7 @@
 // src/components/UserAuthForm/UserAuthForm.jsx
 import React, { useState } from 'react';
 import InputBox from './InputBox';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import AnimationWrapper from './AnimationWrapper';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -9,7 +9,6 @@ import { useDispatch } from 'react-redux';
 
 const UserAuthForm = ({ type }) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [data, setData] = useState({
     name: "",
     email: "",
@@ -34,36 +33,30 @@ const UserAuthForm = ({ type }) => {
         ? await axios.post('http://localhost:4000/api/user/login', data)
         : await axios.post('http://localhost:4000/api/user/register', data);
   
-      console.log('Response:', response); // Debugging line
-  
       if (response.data.success) {
         toast.success('Operation successful!');
         setSuccess('Operation successful!');
   
-    
-      const { token, role } = response.data;
-      dispatch({
-        type: 'SET_TOKEN',
-        payload: {
-          token,
-          role
-        }
-      });
-      localStorage.setItem('authToken', token);
-      // localStorage.setItem('userRole', user.role);
-  
-        navigate('/');
+        const { token, refreshToken, role ,cartData} = response.data;
+        dispatch({
+          type: 'SET_TOKEN',
+          payload: {
+            token,
+            role,
+          }
+        });
+        localStorage.setItem('authToken', token);
+        localStorage.setItem('userRole', role);
       } else {
-        console.log('Error Message:', response.data.message); // Debugging line
         toast.error(response.data.message || 'Something went wrong');
         setError(response.data.message || 'Something went wrong');
       }
     } catch (error) {
-      console.error('Error:', error); // Debugging line
       toast.error('Error occurred. Please try again.');
       setError('Error occurred. Please try again.');
     }
   };
+  
   
 
   return (

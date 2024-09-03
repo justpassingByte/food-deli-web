@@ -4,18 +4,18 @@ import './Navbar.css';
 import { assets } from '../../assets/assets';
 import { useNavigate, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import useCart from '../CustomHook/UseCart';
 
 const Navbar = () => {
   const [menu, setMenu] = useState("home");
   const navigate = useNavigate();
-  const token = useSelector(state => state.auth.token);
-  const userRole = useSelector(state => state.auth.userRole); // Access userRole from Redux store
+  const token = useSelector(state => state.auth.token)
+  const userRole = useSelector(state => state.auth.userRole); 
   const dispatch = useDispatch();
-
+  const {cartData} = useCart();
   const handleLogout = () => {
     dispatch({ type: 'LOGOUT' });
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('userRole'); // Remove userRole from local storage
+    localStorage.clear();
     navigate('/');
   };
 
@@ -38,11 +38,11 @@ const Navbar = () => {
           <div className="navbar-profile">
             <img src={assets.profile_icon} alt="" />
             <ul className="nav-profile-dropdown">
-              <li><img src={assets.bag_icon} alt="" /><p>Order</p></li>
+              <li onClick={() => navigate('/myorders')}><img src={assets.bag_icon} alt="" /><p>Order</p></li>
               <hr />
               {userRole === 'admin' && (
                 <li onClick={() => navigate('/admin-dashboard')}>
-                  <img src="" alt="" /><p>Dashboard</p>
+                  <img src={assets.admin} alt="" /><p>Dashboard</p>
                 </li>
               )}
               <hr />

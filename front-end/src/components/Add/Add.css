@@ -16,6 +16,7 @@
 }
 .add-product-name input, .add-product-description textarea{
     padding: 10px;
+    border: 1px solid tomato;
 }
 .add-category-price{
     display: flex;
@@ -24,6 +25,7 @@
 .add-category-price select, .add-price input{
     max-width: 120px;
     padding: 10px;
+    border: 1px solid #6d6d6d;
 }
 .add-btn{
     max-width: 120px;

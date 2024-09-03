@@ -22,15 +22,17 @@ const loginUser = async (req, res) => {
 
     // Create a JWT token
     const token = jwt.sign(
-      { userId: user._id, role: user.role },
+      { userId: user._id, role: user.role, cartData: user.cartData },
       process.env.JWT_SECRET,
       {
         expiresIn: "1h",
+  
       }
     );
-
+    console.log(user.cartData);
+    
     // Send success response with the token
-    return res.json({ success: true, token, role: user.role, message: "Login successful!" });
+    return res.json({ success: true, token, role: user.role,cartData: user.cartData, message: "Login successful!" });
   } catch (error) {
     console.error("Error during login:", error);
     return res.status(500).json({ success: false, message: "Server error", error: error.message || error });

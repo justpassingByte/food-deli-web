@@ -107,8 +107,7 @@ const updateStatus = async (req, res) => {
             });
         }
 
-        // Check if the current status is "Delivering" or "Delivered"
-        if (order.status === 'Delivering' || order.status === 'Delivered') {
+        if (order.status === 'Delivered') {
             return res.status(400).json({
                 success: false,
                 message: 'Order status cannot be changed once it is Delivering or Delivered',

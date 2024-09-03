@@ -62,6 +62,7 @@ import logout_icon from './logout_icon.png'
 import parcel_icon from './parcel_icon.png'
 import order_icon from './order_icon.png'
 import upload_area from './upload_area.png'
+import admin from './admin.png'
 export const assets = {
     logo,
     basket_icon,
@@ -84,9 +85,10 @@ export const assets = {
     logout_icon,
     bag_icon,
     parcel_icon,
-    upload_area
-}
+    upload_area,
+    admin
 
+}
 export const menu_list = [
     {
         menu_name: "Salad",

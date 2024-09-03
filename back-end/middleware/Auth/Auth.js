@@ -29,8 +29,12 @@ const isAdmin = (req, res, next) => {
   
       next();
     } catch (error) {
+      if (error.name === 'TokenExpiredError') {
+        return res.status(403).json({ success: false, message: "Token expired, please refresh your token" });
+      }
       console.log(error); // Log lỗi để debug
       return res.status(403).json({ success: false, message: "Invalid token" });
+     
     }
   };
   
