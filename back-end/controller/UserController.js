@@ -79,6 +79,49 @@ const registerUser = async (req, res) => {
       return res.status(500).json({ success: false, message: "Server error", error: error.message || error });
     }
   };
-  
+//delete user
+  const deleteUser = async (req,res)=>{
+    const {userId} = req.body
+    try {
+      const user = await userModel.findById(id);
+      if(!user){
+        return res.json({success:false,message:"User not found"})
+      }
+      await userModel.findByIdAndDelete(id);
+      return res.json({success:true,message:"User deleted successfully"})
+    } catch (error) {
+      console.error("Error during user deletion:", error);
+      return res.status(500).json({ success: false, message: "Server error", error: error.message || error });
 
-export {loginUser,registerUser}
+    }
+  }
+//update role user
+ const updateRoleUser = async (req,res)=>{
+    const {userId,role}= req.body
+    try {
+    const user = await userModel.findById(userId)
+    if(!user){
+      return res.json({success:false,message:"User not found"})
+    }
+    user.role = role
+    await user.save()
+    return res.json({ success: true, message: "User role updated successfully" });
+    } catch (error) {
+      console.error("Error during role update:", error);
+      return res.status(500).json({ success: false, message: "Server error", error: error.message || error });  
+    }
+  }
+  //user list
+  const getUserList = async(req,res) =>{
+    try {
+      const users = await userModel.find({}, {password: 0})
+      if (users.length === 0) {
+        return res.json({ success: false, message: "No users found" });
+      }
+      return res.json({ success: true, data: users });
+    } catch (error) {
+      console.error("Error fetching user list:", error);
+      return res.status(500).json({ success: false, message: "Server error", error: error.message });  
+    }
+  }
+export {loginUser,registerUser,deleteUser,updateRoleUser,getUserList}
